@@ -40,7 +40,9 @@ socketio.on("connection", socket => {
   // });
 });
 
-mongoose.connect(process.env.MONGODB_URI || config.database);
+mongoose.connect(
+  "mongodb://heroku_9wql57m2:7h8jt1p25n3r3bsigl5vnt5k06@ds019688.mlab.com:19688/heroku_9wql57m2"
+);
 
 const validate = async decoded => {
   let promise = await new Promise(async resolve => {
