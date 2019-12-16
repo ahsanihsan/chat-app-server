@@ -10,7 +10,10 @@ require("dotenv").config();
 
 const sendNotification = require("./src/handlers/notification");
 
-const server = new Hapi.Server(config.server);
+const server = new Hapi.Server({
+  port: process.env.PORT || 8888,
+  host: "0.0.0.0"
+});
 
 const sockets = {};
 
