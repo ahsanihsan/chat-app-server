@@ -36,10 +36,6 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  expoToken: {
-    type: String,
-    required: true
-  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,

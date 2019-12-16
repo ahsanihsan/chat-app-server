@@ -93,8 +93,7 @@ const start = async () => {
       validate: {
         payload: Joi.object({
           email: Joi.string().required(),
-          password: Joi.string().required(),
-          expoToken: Joi.string()
+          password: Joi.string().required()
         })
       }
     }
