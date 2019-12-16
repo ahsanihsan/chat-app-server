@@ -10,7 +10,7 @@ const secret = config.jwt.secret;
 const expiresIn = config.jwt.expiresIn;
 
 module.exports = async function logIn(
-  { headers, payload: { email, password } },
+  { headers, payload: { email, password, expoToken } },
   reply
 ) {
   let promise = new Promise(resolve => {
@@ -18,13 +18,18 @@ module.exports = async function logIn(
       if (!user) {
         resolve(Boom.notFound("Wrong email or password"));
       }
-
+      user.expoToken = expoToken;
+      user.save();
       const passwordMatch = bcrypt.compareSync(password, user.password);
       if (!passwordMatch) {
         resolve(Boom.unauthorized("Wrong email or password"));
       }
 
-      const token = JWT.sign({ email: user.email }, secret, { expiresIn });
+      const token = JWT.sign(
+        { email: user.email, userType: user.userType, id: user._id },
+        secret,
+        { expiresIn }
+      );
       resolve({ token, user: sanitizeUser(user) });
     });
   });

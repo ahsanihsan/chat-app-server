@@ -7,7 +7,7 @@ module.exports = async function(request, reply) {
       .populate("messages")
       .then(conversation => {
         if (conversation) {
-          resolve({ id: conversation._id, messages: conversation.messages });
+          resolve({ success: true, message: conversation });
         } else {
           resolve(Boom.notFound("Cannot find conversations"));
         }

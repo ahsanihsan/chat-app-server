@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const config = require("./config/config");
 const Joi = require("@hapi/joi");
 
+const sendNotification = require("./src/handlers/notification");
+
 const server = new Hapi.Server(config.server);
 
 const sockets = {};
@@ -18,18 +20,23 @@ const socketio = require("socket.io")(server.listener, {
 });
 
 socketio.on("connection", socket => {
+  console.log("CONNECTION DEVELOPED");
   socket.on("init", userId => {
     sockets[userId.senderId] = socket;
   });
   socket.on("message", message => {
+    console.log(message);
     if (sockets[message.receiverId]) {
+      // sendNotification({
+      //   expoToken: message.expoToken,
+      //   body: message.text
+      // });
       sockets[message.receiverId].emit("message", message);
     }
-    handlers.createMessage(message);
   });
-  socket.on("disconnect", userId => {
-    delete sockets[userId.senderId];
-  });
+  // socket.on("disconnect", userId => {
+  //   delete sockets[userId.senderId];
+  // });
 });
 
 mongoose.connect(config.database);
@@ -66,7 +73,12 @@ const start = async () => {
         payload: Joi.object({
           fullName: Joi.string().required(),
           email: Joi.string().required(),
-          password: Joi.string().required()
+          password: Joi.string().required(),
+          height: Joi.string().required(),
+          weight: Joi.string().required(),
+          dateOfBirth: Joi.string().required(),
+          gender: Joi.string().required(),
+          userType: Joi.string().required()
         })
       }
     }
@@ -80,14 +92,15 @@ const start = async () => {
       validate: {
         payload: Joi.object({
           email: Joi.string().required(),
-          password: Joi.string().required()
+          password: Joi.string().required(),
+          expoToken: Joi.string()
         })
       }
     }
   });
   server.route({
     method: "POST",
-    path: "/friends",
+    path: "/friends/{userType}",
     handler: handlers.addFriend,
     config: {
       auth: "jwt",
@@ -100,8 +113,16 @@ const start = async () => {
   });
   server.route({
     method: "GET",
-    path: "/friends",
+    path: "/friends/{userType}",
     handler: handlers.loadFriends,
+    config: {
+      auth: "jwt"
+    }
+  });
+  server.route({
+    method: "GET",
+    path: "/profile",
+    handler: handlers.getProfile,
     config: {
       auth: "jwt"
     }
@@ -139,6 +160,14 @@ const start = async () => {
     method: "POST",
     path: "/messages",
     handler: handlers.createMessage,
+    config: {
+      auth: "jwt"
+    }
+  });
+  server.route({
+    method: "GET",
+    path: "/users",
+    handler: handlers.listUsers,
     config: {
       auth: "jwt"
     }

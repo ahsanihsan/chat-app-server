@@ -6,6 +6,8 @@ const loadConversations = require("./loadConversations");
 const createConversation = require("./createConversation");
 const createMessage = require("./createMessage");
 const loadMessages = require("./loadMessages");
+const listUsers = require("./listUsers");
+const getProfile = require("./getProfile");
 
 module.exports = {
   createUser,
@@ -15,5 +17,7 @@ module.exports = {
   loadConversations,
   createConversation,
   createMessage,
-  loadMessages
+  loadMessages,
+  listUsers,
+  getProfile
 };

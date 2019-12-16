@@ -17,7 +17,7 @@ module.exports = async function(request, reply) {
               friendId
             };
           });
-          resolve({ sucess: true, message: conversations });
+          resolve({ success: true, message: conversations });
         } else {
           resolve(Boom.notFound("Cannot find user"));
         }

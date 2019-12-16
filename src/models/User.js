@@ -16,6 +16,30 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  dateOfBirth: {
+    type: String,
+    required: true
+  },
+  weight: {
+    type: Number,
+    required: true
+  },
+  height: {
+    type: Number,
+    required: true
+  },
+  gender: {
+    type: String,
+    required: true
+  },
+  userType: {
+    type: String,
+    required: true
+  },
+  expoToken: {
+    type: String,
+    required: true
+  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,

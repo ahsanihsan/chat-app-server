@@ -3,10 +3,11 @@ const Message = require("../models/Message");
 
 const createMessage = request => {
   let promise = new Promise(resolve => {
-    Conversation.findById(request.payload.conversationId).then(conversation => {
+    console.log(request);
+    Conversation.findById(request.conversationId).then(conversation => {
       const textMessage = new Message({
-        text: request.payload.message,
-        userId: request.auth.credentials.email
+        text: request.text,
+        userId: "ahsan.ihsan@outlook.com"
       });
       textMessage
         .save()

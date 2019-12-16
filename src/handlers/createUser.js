@@ -23,7 +23,12 @@ const createUser = async (request, reply) => {
         newUser = new User({
           fullName: request.payload.fullName,
           email: request.payload.email,
-          password: hashedPassword
+          password: hashedPassword,
+          height: request.payload.height,
+          weight: request.payload.weight,
+          dateOfBirth: request.payload.dateOfBirth,
+          gender: request.payload.gender,
+          userType: request.payload.userType
         });
         newUser.save(err => {
           console.log(err);
