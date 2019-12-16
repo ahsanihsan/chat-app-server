@@ -10,7 +10,7 @@ const secret = config.jwt.secret;
 const expiresIn = config.jwt.expiresIn;
 
 module.exports = async function logIn(
-  { headers, payload: { email, password, expoToken } },
+  { headers, payload: { email, password } },
   reply
 ) {
   let promise = new Promise(resolve => {
@@ -18,7 +18,6 @@ module.exports = async function logIn(
       if (!user) {
         resolve(Boom.notFound("Wrong email or password"));
       }
-      user.expoToken = expoToken;
       user.save();
       const passwordMatch = bcrypt.compareSync(password, user.password);
       if (!passwordMatch) {
