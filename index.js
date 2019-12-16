@@ -6,6 +6,7 @@ const Hapi = require("@hapi/hapi");
 const mongoose = require("mongoose");
 const config = require("./config/config");
 const Joi = require("@hapi/joi");
+require("dotenv").config();
 
 const sendNotification = require("./src/handlers/notification");
 
@@ -39,7 +40,7 @@ socketio.on("connection", socket => {
   // });
 });
 
-mongoose.connect(config.database);
+mongoose.connect(process.env.MONGODB_URI || config.database);
 
 const validate = async decoded => {
   let promise = await new Promise(async resolve => {
