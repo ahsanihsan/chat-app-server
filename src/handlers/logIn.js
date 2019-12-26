@@ -23,7 +23,7 @@ module.exports = async function logIn(
       if (!passwordMatch) {
         resolve(Boom.unauthorized("Wrong email or password"));
       }
-
+      console.log(user);
       const token = JWT.sign(
         { email: user.email, userType: user.userType, id: user._id },
         secret,
